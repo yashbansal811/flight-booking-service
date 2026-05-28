@@ -1,6 +1,7 @@
 * text=auto
 
 .gitattributes text eol=lf
+.editorconfig text eol=lf
 .sequelizerc text eol=lf
 *.js text eol=lf
 *.json text eol=lf
