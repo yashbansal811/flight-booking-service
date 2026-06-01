@@ -1,10 +1,10 @@
 const axios=require('axios');
 const {BookingRepository}=require('../repositories');
 const {StatusCodes}=require('http-status-codes');
-const {AppError}=require('../utils');
+const AppError=require('../utils/errors/app-error');
 const db=require('../models');
 const {ServerConfig}=require('../config');
-const {Enums}=require('../utils/common');
+const Enums=require('../utils/common/enums');
 const {BOOKED,CANCELLED}=Enums.BOOKING_STATUS;
 
 const bookingRepository=new BookingRepository();
@@ -83,7 +83,19 @@ async function cancelBooking(bookingId){
         throw error;
        }
 }
+
+async function cancelOldBookings(){
+    try{
+        const time=new Date(Date.now()-1000*300);
+        const response=await bookingRepository.cancelOldBookings(time);
+        return response;
+    }
+    catch(error){
+        throw error;
+    }
+}
 module.exports={
     createBooking,
-    makePayment
+    makePayment,
+    cancelOldBookings
 }
